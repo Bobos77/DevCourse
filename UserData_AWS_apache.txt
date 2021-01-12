@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "---------------START---------------------"
+yum -y update
+yum -y install httpd
+echo "<html><body bgcolor=green><center><h2><p><font color=red>Hello bro </h2></center></body></html>" > /var/www/html/index.html
+ service httpd start
+chkconfig httpd on
+cat netumenya.txt
+echo "UserData executed on $(date)" >> /var/www/html/log.txt
+echo "-----------------FINISH----------------"
+
+#!/bin/bash
+echo "---------------START---------------------"
+yum -y update
+yum -y install httpd
+aws s3 sync s3://ant.hello.train.www /var/www/html
+service httpd start
+chkconfig httpd on
+echo "-----------------FINISH----------------"
