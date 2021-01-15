@@ -1,0 +1,27 @@
+sudo yum update
+sudo yum -y install ruby
+sudo yum -y install wget
+cd /home/ec2-user
+wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto
+sudo service codedeploy-agent status
+
+https://aws.amazon.com/premiumsupport/knowledge-center/codedeploy-agent-non-root-profile/
+
+#!/bin/bash
+REGION=$(curl 169.254.169.254/latest/meta-data/placement/availability-zone/ | sed 's/[a-z]$//')
+yum -y update
+yum install ruby wget -y
+cd /home/ec2-user
+wget https://aws-codedeploy-$REGION.s3.$REGION.amazonaws.com/latest/install
+chmod +x ./install
+./install auto
+service codedeploy-agent stop
+#adduser username <--- this is only required if you use a username that does not already exist
+sed -i 's/""/"ec2-user"/g' /etc/init.d/codedeploy-agent
+#sed -i 's/#User=codedeploy/User=ec2-user/g' /usr/lib/systemd/system/codedeploy-agent.service  <--- Uncomment this line for Amazon Linux 2
+systemctl daemon-reload
+chown ec2-user:ec2-user -R /opt/codedeploy-agent/
+chown ec2-user:ec2-user -R /var/log/aws/
+service codedeploy-agent start

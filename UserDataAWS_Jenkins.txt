@@ -1,0 +1,11 @@
+Deploy Jenkins
+https://d1.awsstatic.com/Projects/P5505030/aws-project_Jenkins-build-server.pdf
+#!/bin/bash
+sudo yum update –y
+sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+sudo yum install java-1.8.0 -y
+sudo yum install jenkins -y
+sudo service jenkins start
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
